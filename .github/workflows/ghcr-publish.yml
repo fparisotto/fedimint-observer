@@ -39,11 +39,5 @@ jobs:
         env:
           IMAGE_TAG: ${{ github.sha }}
         if: github.ref == 'refs/heads/master'
-        run: |
-          nix_tag=${{ env.fedimint_observer_container_tag }} && hub_tag="$REGISTRY/$REPOSITORY:$IMAGE_TAG" && docker tag "$nix_tag" "$hub_tag" && docker push "$hub_tag"
-      - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v1
-        with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
-          subject-digest: ${{ steps.push.outputs.digest }}
-          push-to-registry: true
+        run: |-
+          nix_tag=${{ env.fedimint_observer_container_tag }} && hub_tag="$REGISTRY/$NAMESPACE/$REPOSITORY:$IMAGE_TAG" && docker tag "$nix_tag" "$hub_tag" && docker push "$hub_tag"
