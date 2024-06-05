@@ -35,9 +35,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Tag and push fedimint-observer image to ghcr.io
-        id: push-image-fedimint-observer
         env:
           IMAGE_TAG: ${{ github.sha }}
-        if: github.ref == 'refs/heads/master'
         run: |-
           nix_tag=${{ env.fedimint_observer_container_tag }} && hub_tag="$REGISTRY/$NAMESPACE/$REPOSITORY:$IMAGE_TAG" && docker tag "$nix_tag" "$hub_tag" && docker push "$hub_tag"
